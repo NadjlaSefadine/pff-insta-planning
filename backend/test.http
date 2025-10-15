@@ -1,0 +1,92 @@
+POST http://localhost:8000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "Abdarrahmane@univ.com",
+  "password": "administrateur"
+}      
+###
+POST http://localhost:8000/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Abdarahmane",
+  "password": "administrateur",
+  "email": "alzantoutienadjla@gmail.com",
+  "role":"prof"
+}
+###
+PATCH http://localhost:8000/api/auth/verify
+Content-Type: application/json
+
+{
+  "otp":"826510",
+  "otpToken": "74884967-e974-4c5e-bc50-b715b1874486",
+  "purpose": "verify-email" 
+}
+
+### 3. Créer un professeur
+POST http://localhost:8000/api/auth/utilisateurs
+Content-Type: application/json
+Authorization: Bearer {jwt}
+
+{
+  "nom": "Abdarahmane",
+  "email": "abdarahmane@univ.com",
+  "password": "admin",
+  "role": "prof"
+}
+
+### Création examen (sans conflit)
+POST http://localhost:8000/api/examens
+Content-Type: application/json
+
+{
+  "date": "2025-09-05",
+  "heure_debut": "08:00",
+  "heure_fin": "10:00",
+  "matiere": "capteur",
+  "filiere_id": 1,
+  "niveau_id": 1,
+  "professeur_id": 1,
+  "salle_id": 1
+}
+
+### Création examen (avec conflit → même prof à la même heure)
+POST http://localhost:8000/api/examens
+Content-Type: application/json
+
+{
+  "date": "2025-09-05",
+  "heure_debut": "09:00",
+  "heure_fin": "11:00",
+  "matiere": "Physique",
+  "filiere_id": 2,
+  "niveau_id": 1,
+  "professeur_id": 1,
+  "salle_id": 2
+}
+
+# ###
+# POST http://localhost:8000/api/salles
+# Content-Type: application/json
+# Authorization: Bearer {jwt}
+
+# {
+#   "libelle": "Salle A",
+#   "type": "TP",
+#   "bloc": "B",
+#   "capacite": 30
+# }
+
+
+### Récupérer emploi du temps d’une filière/niveau pour une semaine
+GET http://localhost:8000/api/emplois?filiere_id=1&niveau_id=1&semaine=36
+
+###
+POST http://localhost:8000/api/professeurs
+Content-Type: application/json
+Authorization: Bearer
+{
+  "nom": "Nouveau Professeur"
+}

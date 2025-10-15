@@ -1,0 +1,177 @@
+.teacher-schedule {
+  font-family: Arial, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+.teacher-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.teacher-info {
+  display: flex;
+  gap: 30px;
+}
+
+.teacher-info span {
+  font-size: 16px;
+  color: #333;
+}
+
+.print-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.print-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.schedule-container {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow-x: auto;
+}
+
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+
+.schedule-table th,
+.schedule-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+  vertical-align: top;
+}
+
+.time-header {
+  background-color: #343a40;
+  color: white;
+  font-weight: bold;
+  width: 120px;
+}
+
+.day-header {
+  background-color: #495057;
+  color: white;
+  font-weight: bold;
+  min-width: 180px;
+}
+
+.time-slot {
+  background-color: #e9ecef;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.course-cell {
+  min-height: 100px;
+  vertical-align: top;
+}
+
+.course-info {
+  font-size: 12px;
+  text-align: left;
+  padding: 8px;
+  background-color: #e8f4fd;
+  border-radius: 4px;
+  min-height: 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-left: 4px solid #007bff;
+}
+
+.course-info div {
+  margin: 3px 0;
+}
+
+.empty-slot {
+  color: #6c757d;
+  font-style: italic;
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+}
+
+.schedule-footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+}
+
+/* Styles pour l'impression */
+@media print {
+  .teacher-header,
+  .print-button {
+    display: none !important;
+  }
+  
+  .teacher-schedule {
+    margin: 0;
+    padding: 0;
+    background: white;
+  }
+  
+  .schedule-container {
+    box-shadow: none;
+    padding: 0;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .teacher-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .teacher-info {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .schedule-table {
+    font-size: 12px;
+  }
+  
+  .course-info {
+    font-size: 10px;
+    padding: 5px;
+  }
+  
+  .print-button {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,49 @@
+const express = require('express');
+const router = express.Router();
+const db = require('../db');
+const auth = require('../middleware/auth');
+
+// GET : tous les professeurs
+router.get('/', auth, async (req, res) => {
+  const result = await db.query('SELECT * FROM professeurs ORDER BY id');
+  console.log('GET /professeurs result count:', result.rows.length);
+    
+  res.json(result.rows);
+});
+
+// GET : un professeur
+router.get('/:id', auth, async (req, res) => {
+  const result = await db.query('SELECT * FROM professeurs WHERE id=$1', [req.params.id]);
+  if (result.rows.length === 0) return res.status(404).json({ message: 'Professeur non trouvé' });
+  res.json(result.rows[0]);
+});
+
+// POST : créer un professeur
+router.post('/', auth, async (req, res) => {
+  const { nom, email } = req.body;
+  const result = await db.query(
+    'INSERT INTO professeurs(nom,email) VALUES ($1,$2) RETURNING *',
+    [nom, email]
+  );
+  res.status(201).json(result.rows[0]);
+});
+
+// PATCH : modifier un professeur
+router.patch('/:id', auth, async (req, res) => {
+  const { nom, email, actif } = req.body;
+  const result = await db.query(
+    'UPDATE professeurs SET nom=$1, email=$2, actif=$3 WHERE id=$4 RETURNING *',
+    [nom, email, actif, req.params.id]
+  );
+  if (result.rows.length === 0) return res.status(404).json({ message: 'Professeur non trouvé' });
+  res.json(result.rows[0]);
+});
+
+// DELETE : supprimer un professeur
+router.delete('/:id', auth, async (req, res) => {
+  const result = await db.query('DELETE FROM professeurs WHERE id=$1 RETURNING *', [req.params.id]);
+  if (result.rows.length === 0) return res.status(404).json({ message: 'Professeur non trouvé' });
+  res.json({ message: 'Professeur supprimé' });
+});
+
+module.exports = router;
