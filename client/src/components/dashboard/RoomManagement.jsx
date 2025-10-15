@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import api from '../../api';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
+import api from "../../api";
 
 const RoomManagement = () => {
   const [rooms, setRooms] = useState([]);
@@ -10,7 +10,7 @@ const RoomManagement = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await api.get('/salles');
+        const response = await api.get("/salles");
         const data = Object.values(response.data);
         setRooms(data);
       } catch (error) {
@@ -43,11 +43,16 @@ const RoomManagement = () => {
                 <td>{room.bloc}</td>
                 <td>{room.capacite}</td>
                 <td>
-                  <button
-                    className="action-btn view-btn"
-                    onClick={() => navigate(`/salle/${encodeURIComponent(room.nom)}`)}
-                  >
-                    Afficher emploi du temps
+                  <button type="button" className="btn btn-outline-success" onClick={() =>
+                      navigate(`/salle/${encodeURIComponent(room.nom)}`)
+                    }>
+                    <i className="bi bi-eye"></i>
+                  </button>
+                  <button type="button" className="btn btn-outline-warning mx-2">
+                  <i className="bi bi-pencil-square"></i>
+                  </button>
+                  <button type="button" className="btn btn-outline-danger">
+                  <i className="bi bi-trash"></i>
                   </button>
                 </td>
               </tr>

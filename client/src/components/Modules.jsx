@@ -4,13 +4,37 @@ import "./Modules.css";
 const initialModules = [
   { id: 1, formation: "GE3", semestre: "S6", libelle: "Capteur", volume: 20 },
   { id: 2, formation: "GI2", semestre: "S3", libelle: "Web", volume: 15 },
-  { id: 3, formation: "GI1", semestre: "S2", libelle: "Structure des données", volume: 14 },
+  {
+    id: 3,
+    formation: "GI1",
+    semestre: "S2",
+    libelle: "Structure des données",
+    volume: 14,
+  },
   { id: 4, formation: "GE2", semestre: "S4", libelle: "CCL", volume: 20 },
   { id: 5, formation: "GE2", semestre: "S1", libelle: "VHDL", volume: 12 },
   { id: 6, formation: "GE3", semestre: "S6", libelle: "Embarque", volume: 20 },
-  { id: 7, formation: "GE1", semestre: "S1", libelle: "etude de realisation I", volume: 20 },
-  { id: 8, formation: "GI", semestre: "S2", libelle: "Electronique numerique", volume: 20 },
-  { id: 9, formation: "G(E,En,I)1", semestre: "S1", libelle: "langage C", volume: 20 }
+  {
+    id: 7,
+    formation: "GE1",
+    semestre: "S1",
+    libelle: "etude de realisation I",
+    volume: 20,
+  },
+  {
+    id: 8,
+    formation: "GI",
+    semestre: "S2",
+    libelle: "Electronique numerique",
+    volume: 20,
+  },
+  {
+    id: 9,
+    formation: "G(E,En,I)1",
+    semestre: "S1",
+    libelle: "langage C",
+    volume: 20,
+  },
 ];
 
 function Modules() {
@@ -29,11 +53,7 @@ function Modules() {
   const handleEdit = (id) => {
     const libelle = prompt("Modifier le libellé du module :");
     if (libelle) {
-      setModules(
-        modules.map((m) =>
-          m.id === id ? { ...m, libelle } : m
-        )
-      );
+      setModules(modules.map((m) => (m.id === id ? { ...m, libelle } : m)));
     }
   };
 
@@ -69,18 +89,21 @@ function Modules() {
               <td>{mod.volume}</td>
               <td className="actions">
                 <button
-                  className="btn edit"
+                  type="button"
+                  className="btn btn-outline-warning mx-2"
                   onClick={() => handleEdit(mod.id)}
                   title="Modifier"
                 >
-                  ✏️
+                  <i className="bi bi-pencil-square"></i>
                 </button>
+
                 <button
-                  className="btn delete"
+                  type="button"
+                  className="btn btn-outline-danger mx-2"
                   onClick={() => handleDelete(mod.id)}
                   title="Supprimer"
                 >
-                  ❌
+                  <i className="bi bi-trash"></i>
                 </button>
               </td>
             </tr>

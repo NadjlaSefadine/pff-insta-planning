@@ -125,12 +125,23 @@ const UserManagement = () => {
                 <td>{user.password}</td>
                 <td>{user.profil}</td>
                 <td>
-                  <button className="action-btn edit-btn">
-                    <FontAwesomeIcon icon={faEdit} />
-                  </button>
-                  <button className="action-btn delete-btn">
-                    <FontAwesomeIcon icon={faTrash} />
-                  </button>
+                <button
+                  type="button"
+                  className="btn btn-outline-warning mx-2"
+                  onClick={() => handleEdit(mod.id)}
+                  title="Modifier"
+                >
+                  <i className="bi bi-pencil-square"></i>
+                </button>
+
+                <button
+                  type="button"
+                  className="btn btn-outline-danger mx-2"
+                  onClick={() => handleDelete(mod.id)}
+                  title="Supprimer"
+                >
+                  <i className="bi bi-trash"></i>
+                </button>
                 </td>
               </tr>
             ))}
