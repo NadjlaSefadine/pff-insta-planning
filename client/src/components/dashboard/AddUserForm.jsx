@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import api from '../../api'; // Make sure this path is correct
 
 const initialFormData = {
-  civilite: 'M',
+  civilite: 'M.',
   nom: '',
   prenom: '',
   tel: '',
@@ -82,11 +82,12 @@ const AddUserForm = () => {
           <div className="form-col">
             <label htmlFor="civilite">Civilité</label>
             <select id="civilite" value={formData.civilite} onChange={handleChange}>
-              <option value="M">M</option>
-              <option value="Mme">Mme</option>
-              <option value="Mlle">Mlle</option>
-              <option value="Dr">Dr</option>
-              <option value="Pr">Pr</option>
+              <option value="M.">M.</option>
+              <option value="Mme.">Mme.</option>
+              <option value="Mlle.">Mlle.</option>
+              <option value="Ing.">Ing.</option>
+              <option value="Dr.">Dr.</option>
+              <option value="Pr.">Pr.</option>
             </select>
           </div>
           <div className="form-col">
@@ -130,7 +131,7 @@ const AddUserForm = () => {
         </div>
 
         <div style={{ marginTop: '20px' }}>
-          <button className="btn" type="submit" disabled={loading || !isFormValid()}>
+          <button className="btn" type="submit" disabled={!isFormValid()}>
             {loading ? 'Ajout en cours...' : 'Ajouter'}
           </button>
           <button
