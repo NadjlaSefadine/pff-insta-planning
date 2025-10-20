@@ -87,6 +87,11 @@ GET http://localhost:8000/api/emplois?filiere_id=1&niveau_id=1&semaine=36
 POST http://localhost:8000/api/professeurs
 Content-Type: application/json
 Authorization: Bearer
+# {
+#   "nom": "Nouveau Professeur"
+# }
+
 {
-  "nom": "Nouveau Professeur"
+  "nom": "Test Prof",
+  "email": "test.prof@example.com"
 }

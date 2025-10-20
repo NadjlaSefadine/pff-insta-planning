@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../api';
-// import './TeacherAvailability.css'; // Pour tes styles
 
 const days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi','Vendredi','Samedi'];
 const timeSlots = [
@@ -17,6 +16,7 @@ const TeacherAvailability = () => {
   const [selectedTeacher, setSelectedTeacher] = useState('');
   const [busySlots, setBusySlots] = useState([]);
   const [newTeacher, setNewTeacher] = useState('');
+  const [newEmail, setNewEmail] = useState('');
   const [message, setMessage] = useState('');
 
   useEffect(() => {
@@ -29,7 +29,6 @@ const TeacherAvailability = () => {
     fetchData();
   }, []);
 
-  // Récupère les créneaux occupés du prof sélectionné
   useEffect(() => {
     if (selectedTeacher) {
       api.get(`/emplois?prof=${selectedTeacher}`)
@@ -47,18 +46,36 @@ const TeacherAvailability = () => {
   const handleAddTeacher = async (e) => {
     e.preventDefault();
     if (!newTeacher) return;
+  
     try {
-      await api.post('/professeurs', { nom: newTeacher });
+      const token = localStorage.getItem('token'); // Récupérer le token stocké
+  
+      await api.post(
+        '/professeurs',
+        { nom: newTeacher, email: '' }, // Si email n’est pas obligatoire, tu peux laisser vide
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Ajouter le token dans l’en-tête
+          },
+        }
+      );
+  
       setMessage("Enseignant ajouté !");
       setNewTeacher('');
-      // Recharge la liste
-      const r = await api.get('/professeurs');
+  
+      // Recharge la liste des professeurs
+      const r = await api.get('/professeurs', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       var result = Object.keys(r.data).map((key) => [key, r.data[key]]);
       setTeachers(result.map(item => ({ id: item[1].id, name: item[1].nom })));
-    } catch {
+  
+    } catch (error) {
+      console.error(error);
       setMessage("Erreur lors de l'ajout");
     }
   };
+  
 
   return (
     <div className="section">
@@ -71,13 +88,24 @@ const TeacherAvailability = () => {
             type="text"
             value={newTeacher}
             onChange={e => setNewTeacher(e.target.value)}
+            style={{ marginLeft: 8, marginRight: 16 }}
+            placeholder="Nom"
+          />
+        </label>
+        <label>
+          Email :
+          <input
+            type="email"
+            value={newEmail}
+            onChange={e => setNewEmail(e.target.value)}
             style={{ marginLeft: 8 }}
+            placeholder="email@example.com"
           />
         </label>
         <button type="submit" style={{ marginLeft: 8 }}>Ajouter</button>
       </form>
 
-      {message && <div style={{ color: "green", marginBottom: 8 }}>{message}</div>}
+      {message && <div style={{ color: message.includes('Erreur') ? 'red' : 'green', marginBottom: 8 }}>{message}</div>}
 
       <div className="form-container">
         <div className="form-row">
@@ -92,6 +120,7 @@ const TeacherAvailability = () => {
           </div>
         </div>
       </div>
+
       {selectedTeacher && (
         <div className="schedule-container">
           <h3 className="schedule-title">
@@ -136,7 +165,5 @@ const TeacherAvailability = () => {
     </div>
   );
 };
-
-
 
 export default TeacherAvailability;

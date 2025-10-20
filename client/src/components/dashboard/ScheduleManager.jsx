@@ -1,19 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 // import './ScheduleManager.css'; // Si tu as une feuille de style externe
 
 const ScheduleManager = () => {
-  const [formation, setFormation] = useState('');
-  const [semestre, setSemestre] = useState('');
-  const [section, setSection] = useState('');
-  const [groupe, setGroupe] = useState('');
+  const [formation, setFormation] = useState("");
+  const [semestre, setSemestre] = useState("");
+  const [section, setSection] = useState("");
+  const [groupe, setGroupe] = useState("");
   const [showSchedule, setShowSchedule] = useState(false);
 
   const handleShowSchedule = () => {
     if (formation && semestre && section && groupe) {
       setShowSchedule(true);
     } else {
-      alert('Veuillez sélectionner tous les champs.');
+      alert("Veuillez sélectionner tous les champs.");
     }
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const onBack = () => {
+    window.history.back();
   };
 
   return (
@@ -82,7 +90,8 @@ const ScheduleManager = () => {
       {showSchedule && (
         <div className="schedule-container">
           <h3 className="schedule-title">
-            Emploi du temps ({semestre}) de la spécialité <span>{formation}</span> section <span>{section}</span> (
+            Emploi du temps ({semestre}) de la spécialité{" "}
+            <span>{formation}</span> section <span>{section}</span> (
             <span>{groupe}</span>)
           </h3>
 
@@ -103,9 +112,12 @@ const ScheduleManager = () => {
                 <td className="time-cell">Samedi</td>
                 <td>
                   <div className="schedule-item">
-                    Module: Capteur<br />
-                    Type: Cours<br />
-                    Prof: Boukhari Mht Issa<br />
+                    Module: Capteur
+                    <br />
+                    Type: Cours
+                    <br />
+                    Prof: Boukhari Mht Issa
+                    <br />
                     Salle: Amphi A
                   </div>
                 </td>
@@ -114,9 +126,12 @@ const ScheduleManager = () => {
                 <td></td>
                 <td>
                   <div className="schedule-item">
-                    Module: Capteur<br />
-                    Type: Cours<br />
-                    Prof: Boukhari Mht Issa<br />
+                    Module: Capteur
+                    <br />
+                    Type: Cours
+                    <br />
+                    Prof: Boukhari Mht Issa
+                    <br />
                     Salle: S4
                   </div>
                 </td>
@@ -129,9 +144,12 @@ const ScheduleManager = () => {
                 <td></td>
                 <td>
                   <div className="schedule-item">
-                    Module: GEn<br />
-                    Type: Cours<br />
-                    Prof: Mr Ahmad<br />
+                    Module: GEn
+                    <br />
+                    Type: Cours
+                    <br />
+                    Prof: Mr Ahmad
+                    <br />
                     Salle: Amphi B
                   </div>
                 </td>
@@ -145,9 +163,12 @@ const ScheduleManager = () => {
                 <td></td>
                 <td>
                   <div className="schedule-item">
-                    Module: Capteur<br />
-                    Type: TP<br />
-                    Prof: Boukhari Mht Issa<br />
+                    Module: Capteur
+                    <br />
+                    Type: TP
+                    <br />
+                    Prof: Boukhari Mht Issa
+                    <br />
                     Salle: Labo1
                   </div>
                 </td>
@@ -158,9 +179,12 @@ const ScheduleManager = () => {
                 <td className="time-cell">Mardi</td>
                 <td>
                   <div className="schedule-item">
-                    Module: GEn<br />
-                    Type: TD<br />
-                    Prof: Dr Mht Saleh<br />
+                    Module: GEn
+                    <br />
+                    Type: TD
+                    <br />
+                    Prof: Dr Mht Saleh
+                    <br />
                     Salle: S1
                   </div>
                 </td>
@@ -179,11 +203,15 @@ const ScheduleManager = () => {
             </tbody>
           </table>
 
-          <div style={{ textAlign: 'center', marginTop: '20px' }}>
-            <button className="btn">
+          <div style={{ textAlign: "center", marginTop: "20px" }}>
+            <button className="btn" onClick={handlePrint}>
               <i className="fas fa-print"></i> Imprimer
             </button>
-            <button className="btn" style={{ backgroundColor: '#666', marginLeft: '10px' }}>
+            <button
+              className="btn"
+              style={{ backgroundColor: "#666", marginLeft: "10px" }}
+              onClick={onBack}
+            >
               Précédent
             </button>
           </div>
