@@ -15,26 +15,36 @@ const handleChange = (e) => {
 router.get('/', auth, async (req, res) => {
   const result = await db.query('SELECT * FROM salles ORDER BY id');
   console.log('GET /salles result count:', result.rows.length);
+  console.log('GET /salles result rows:', result.rows);
+  // log each row id
+  console.log('GET /salles row IDs:');
+  result.rows.forEach(row => {
+    console.log('Salle ID:', row.id);
+  });
+    
   
   res.json(result.rows);
 });
 
 // POST : créer une salle
 router.post('/', auth, async (req, res) => {
-  const { code, capacite } = req.body;
+  const { libelle, type, bloc, capacite } = req.body;
   const result = await db.query(
-    'INSERT INTO salles(code,capacite) VALUES ($1,$2) RETURNING *',
-    [code, capacite]
+    'INSERT INTO salles(libelle, type, bloc, capacite) VALUES ($1,$2,$3,$4) RETURNING *',
+    [libelle, type, bloc, capacite]
   );
   res.status(201).json(result.rows[0]);
 });
 
 // PATCH : modifier une salle
 router.patch('/:id',  async (req, res) => {
-  const { code, capacite } = req.body;
+  console.log('PATCH /salles/:id called with id:', req.params.id);
+  console.log('Request body:', req.body);  
+  
+  const { libelle, type, bloc, capacite } = req.body;
   const result = await db.query(
-    'UPDATE salles SET code=$1, capacite=$2 WHERE id=$3 RETURNING *',
-    [code, capacite, req.params.id]
+    'UPDATE salles SET libelle=$1, type=$2, bloc=$3, capacite=$4 WHERE id=$5 RETURNING *',
+    [libelle, type, bloc, capacite, req.params.id]
   );
   if (result.rows.length === 0) return res.status(404).json({ message: 'Salle non trouvée' });
   res.json(result.rows[0]);

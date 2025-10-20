@@ -44,7 +44,7 @@ const RoomManagement = () => {
     e.preventDefault();
     try {
       if (editingRoomId) {
-        await api.put(`/salles/${editingRoomId}`, formData);
+        await api.patch(`/salles/${editingRoomId}`, formData);
       } else {
         await api.post("/salles", formData);
       }
@@ -87,7 +87,10 @@ const RoomManagement = () => {
     <div className="section">
       <h2 className="form-title">GESTION DES SALLES</h2>
 
-      <button className="btn btn-primary mb-3" onClick={() => setShowForm(true)}>
+      <button
+        className="btn btn-primary mb-3"
+        onClick={() => setShowForm(true)}
+      >
         Ajouter une salle
       </button>
 
@@ -95,6 +98,9 @@ const RoomManagement = () => {
         <form onSubmit={handleSubmit} className="mb-4 border p-3 rounded">
           <div className="row">
             <div className="col-md-4">
+              <label htmlFor="libelle" className="form-label">
+                Libellé
+              </label>
               <input
                 type="text"
                 name="libelle"
@@ -106,6 +112,9 @@ const RoomManagement = () => {
               />
             </div>
             <div className="col-md-4">
+              <label htmlFor="libelle" className="form-label">
+                Type
+              </label>
               <input
                 type="text"
                 name="type"
@@ -116,6 +125,9 @@ const RoomManagement = () => {
               />
             </div>
             <div className="col-md-4">
+              <label htmlFor="libelle" className="form-label">
+                Bloc
+              </label>
               <input
                 type="text"
                 name="bloc"
@@ -129,6 +141,9 @@ const RoomManagement = () => {
 
           <div className="row mt-2">
             <div className="col-md-3">
+              <label htmlFor="libelle" className="form-label">
+                Capacité
+              </label>
               <input
                 type="number"
                 name="capacite"
@@ -139,6 +154,9 @@ const RoomManagement = () => {
               />
             </div>
             <div className="col-md-6">
+              <label htmlFor="libelle" className="form-label">
+                Équipements
+              </label>
               <input
                 type="text"
                 name="equipements"
@@ -148,7 +166,8 @@ const RoomManagement = () => {
                 onChange={handleChange}
               />
             </div>
-            <div className="col-md-3 form-check d-flex align-items-center">
+            <div className="mb-3 form-check col-md-3">
+              <br />
               <input
                 type="checkbox"
                 name="disponible"
@@ -156,7 +175,9 @@ const RoomManagement = () => {
                 checked={formData.disponible}
                 onChange={handleChange}
               />
-              <label className="form-check-label">Disponible</label>
+              <label className="form-check-label" htmlFor="disponible">
+                Disponibilité
+              </label>
             </div>
           </div>
 
