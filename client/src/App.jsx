@@ -63,7 +63,7 @@ export default function App() {
                   <li><Link to="module">Module</Link></li>
                   <li><Link to="enseignant">Enseignant</Link></li>
                   <li><Link to="formation">Formation</Link></li>
-                  <li><Link to="semestre">Semestre</Link></li>
+                  {/* <li><Link to="semestre">Semestre</Link></li> */}
                   <li><Link to="section">Section</Link></li>
                   <li><Link to="utilisateur">Utilisateur</Link></li>
                   
@@ -94,7 +94,7 @@ export default function App() {
           <Route path="module" element={<PrivateRoute><Modules /></PrivateRoute>} />
           <Route path="enseignant" element={<PrivateRoute><TeacherAvailability/></PrivateRoute>} />
           {/* <Route path="formation" element={<PrivateRoute>< RoomsList/></PrivateRoute>} /> */}
-          <Route path="semestre" element={<PrivateRoute><Semestre /></PrivateRoute>} />
+          {/* <Route path="semestre" element={<PrivateRoute><Semestre /></PrivateRoute>} /> */}
           {/* <Route path="section" element={<PrivateRoute>< /></PrivateRoute>} /> */}
           <Route path="groupe" element={<PrivateRoute><RoomsList /></PrivateRoute>} />
           <Route path="utilisateur" element={<PrivateRoute><UserManagement /></PrivateRoute>} />
