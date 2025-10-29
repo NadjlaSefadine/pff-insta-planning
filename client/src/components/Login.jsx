@@ -10,6 +10,8 @@ export default function Login() {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
+      console.log('Submitting login for', email);
+      console.log('API base URL:', api.defaults.baseURL);
       const res = await api.post('/auth/login', { email, password });
       saveToken(res.data.token);
       window.location.href = '/';

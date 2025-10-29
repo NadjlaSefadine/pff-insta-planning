@@ -35,8 +35,6 @@ router.post("/register", async (req, res) => {
       return res.status(409).json({ message: "L'email existe déjà" });
     }
     
-    
-
     // Hasher le mot de passe
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -124,6 +122,8 @@ console.log(otpDetails);
 
 // LOGIN (déjà bon)
 router.post('/login', async (req, res) => {
+  console.log('Login request received');
+  console.log('Request body:', req.body);
   const { email, password } = req.body;
   try {
     const result = await db.query('SELECT * FROM utilisateurs WHERE email=$1', [email]);
