@@ -8,7 +8,7 @@ import Dashboard from './components/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
 import ProfessorsList from './components/ProfessorsList';
 import RoomsList from './components/RoomsList';
-import ExamForm from './components/ExamForm';
+import ExamForm, { ExamenForm } from './components/ExamForm';
 import WeeklyAgenda from './components/WeeklyAgenda';
 import { logout, getUser } from './auth';
 import Timetable from "./components/Timetable";
@@ -22,8 +22,8 @@ import AddUserForm from './components/dashboard/AddUserForm';
 import StudentDashboard from './components/dashboard/StudentDashboard';
 import RoomSchedule from './components/dashboard/RoomSchedule';
 import TimetableCreator from './components/dashboard/TimetableCreator';
-import Modules from "./components/Modules";
-import Semestre from './components/Semestre';
+// import Modules from "./components/Modules";
+// import Semestre from './components/Semestre';
 
 // const App = () => {
 //   return (
@@ -66,7 +66,7 @@ export default function App() {
                   {/* <li><Link to="semestre">Semestre</Link></li> */}
                   <li><Link to="section">Section</Link></li>
                   <li><Link to="utilisateur">Utilisateur</Link></li>
-                  
+                  <li><Link to="examens/new">Ajouter un examen</Link></li>
                 </ul>
                 <button className="logout-btn" onClick={() => { logout(); window.location.href = '/login'; }}>Déconnexion</button>
               </div>
@@ -91,7 +91,7 @@ export default function App() {
           <Route path="emploi-du-temps" element={<PrivateRoute><ScheduleManager /></PrivateRoute>} />
           <Route path="salle" element={<PrivateRoute><RoomManagement /></PrivateRoute>} />
           <Route path="salle/:roomName" element={<PrivateRoute><RoomScheduleWrapper /></PrivateRoute>} />
-          <Route path="module" element={<PrivateRoute><Modules /></PrivateRoute>} />
+          {/* <Route path="module" element={<PrivateRoute><Modules /></PrivateRoute>} /> */}
           <Route path="enseignant" element={<PrivateRoute><TeacherAvailability/></PrivateRoute>} />
           {/* <Route path="formation" element={<PrivateRoute>< RoomsList/></PrivateRoute>} /> */}
           {/* <Route path="semestre" element={<PrivateRoute><Semestre /></PrivateRoute>} /> */}
@@ -103,6 +103,13 @@ export default function App() {
           <Route path="student-dashboard" element={<PrivateRoute><StudentDashboard /></PrivateRoute>} />
           <Route path="examens/new" element={<PrivateRoute><ExamForm /></PrivateRoute>} />
           <Route path="enseignant" element={<PrivateRoute><Disponibilite /></PrivateRoute>} />
+          <Route path="timetable-creator" element={<PrivateRoute><TimetableCreator /></PrivateRoute>} />
+          {/* <Route path="section" element={<PrivateRoute><ModuleManagement /></PrivateRoute>} />
+          <Route path="semestre" element={<PrivateRoute><Semestre /></PrivateRoute>} />
+          <Route path="module" element={<PrivateRoute><Modules /></PrivateRoute>} />
+          <Route path="formation" element={<PrivateRoute><RoomsList /></PrivateRoute>} /> */}
+
+          <Route path="examenRoutes" element={<PrivateRoute><ExamenForm /></PrivateRoute>} />
           </Routes>
         <Footer />
       </div>

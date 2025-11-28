@@ -2,7 +2,7 @@ POST http://localhost:8000/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "Abdarrahmane@univ.com",
+  "email": "alzantoutienadjla@gmail.com",
   "password": "administrateur"
 }      
 ###
@@ -26,15 +26,18 @@ Content-Type: application/json
 }
 
 ### 3. Créer un professeur
-POST http://localhost:8000/api/auth/utilisateurs
+POST http://localhost:8000/api/utilisateurs
 Content-Type: application/json
-Authorization: Bearer {jwt}
 
 {
-  "nom": "Abdarahmane",
-  "email": "abdarahmane@univ.com",
+  "nom": "nadjla",
+  "prenom": "sefadine",
+  "email": "alzantoutienadjla@gmail.com",
   "password": "admin",
-  "role": "prof"
+  "profil": "Admin",
+  "civilite": "Mme.",
+  "tel": "66970372",
+  "login": "nadjla.sefadine"
 }
 
 ### Création examen (sans conflit)

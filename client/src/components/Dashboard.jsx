@@ -28,7 +28,6 @@ export default function Dashboard() {
       ])
         .then((responses) => {
           // console.log("API responses received:", responses);
-
           const [p, s, e] = responses;
           setCounts({
             profs: p.data.length,
@@ -48,7 +47,6 @@ export default function Dashboard() {
       console.error(err);
     }
   }
-
   return (
     <div>
       <h2>Dashboard</h2>

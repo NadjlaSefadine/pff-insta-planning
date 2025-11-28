@@ -1,7 +1,9 @@
+const pool = require("../db");
 const express = require("express");
+const auth = require("../middleware/auth.js");
+
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const pool = require("../db");
 
 router.post("/", async (req, res) => {
   const { civilite, nom, prenom, tel, email, login, password, profil } =

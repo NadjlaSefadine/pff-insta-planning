@@ -1,12 +1,12 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const db = require("../db");
-const auth = require("../middleware/auth");
+const pool = require("../db.js");
+const auth = require("../middleware/auth.js");
 
 // GET : tous les professeurs
 router.get("/", auth, async (req, res) => {
   try {
-    const result = await db.query("SELECT * FROM professeurs ORDER BY id");
+    const result = await pool.query("SELECT * FROM professeurs ORDER BY id");
     console.log("GET /professeurs result count:", result.rows.length);
     res.json(result.rows);
   } catch (error) {
@@ -18,7 +18,7 @@ router.get("/", auth, async (req, res) => {
 // GET : un professeur
 router.get("/:id", auth, async (req, res) => {
   try {
-    const result = await db.query("SELECT * FROM professeurs WHERE id=$1", [
+    const result = await pool.query("SELECT * FROM professeurs WHERE id=$1", [
       req.params.id,
     ]);
     if (result.rows.length === 0)
@@ -43,7 +43,7 @@ router.post("/", auth, async (req, res) => {
         .json({ message: "Les mots de passe ne correspondent pas" });
     }
 
-    const result = await db.query(
+    const result = await pool.query(
       "INSERT INTO professeurs(nom, email, password) VALUES ($1, $2, $3) RETURNING *",
       [nom, email, password]
     );
@@ -59,7 +59,7 @@ router.post("/", auth, async (req, res) => {
 router.patch("/:id", auth, async (req, res) => {
   try {
     const { nom, email, actif } = req.body;
-    const result = await db.query(
+    const result = await pool.query(
       "UPDATE professeurs SET nom=$1, email=$2, actif=$3 WHERE id=$4 RETURNING *",
       [nom, email, actif, req.params.id]
     );
@@ -77,7 +77,7 @@ router.patch("/:id", auth, async (req, res) => {
 // DELETE : supprimer un professeur
 router.delete("/:id", auth, async (req, res) => {
   try {
-    const result = await db.query(
+    const result = await pool.query(
       "DELETE FROM professeurs WHERE id=$1 RETURNING *",
       [req.params.id]
     );

@@ -35,8 +35,29 @@ export default function ExamForm() {
       return;
     }
 
+    // Vérification des conflits avant ajout
+    try {
+      const checkPayload = {
+        professeur: Number(form.professeurId),
+        salle: Number(form.salleId),
+        date: form.date,
+        heure_debut: form.heureDebut,
+        heure_fin: form.heureFin
+      };
+      const checkRes = await api.post('/examens/check-conflict', checkPayload);
+      if (checkRes.data.conflict) {
+        setMsg(`Conflit: ${checkRes.data.message}`);
+        return;
+      }
+    } catch (err) {
+      setMsg('Erreur lors de la vérification du conflit.');
+      return;
+    }
+
+    // Ajout de l'examen si pas de conflit
     try {
       const payload = {
+        id :SVGAnimatedInteger,
         date: form.date,
         heureDebut: form.heureDebut,
         heureFin: form.heureFin,
@@ -59,6 +80,10 @@ export default function ExamForm() {
     <div>
       <h2>Créer un examen</h2>
       <form onSubmit={submit} className="card">
+    <label>id
+        <input type="text" value={form.id} onChange={e => setForm({ ...form, id: e.target.value })} required />
+      </label>
+        
         <label>Date
           <input type="date" value={form.date} onChange={e => setForm({ ...form, date: e.target.value })} required />
         </label>
@@ -250,4 +275,4 @@ function ExamenForm() {
   );
 }
 
-// export default ExamForm;
+export { ExamenForm };

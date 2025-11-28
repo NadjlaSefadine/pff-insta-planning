@@ -8,4 +8,5 @@ router.post("/", utilisateurController.create);
 router.post("/register", register);
 router.patch("/verify-email", verify);
 router.post("/utilisateur", utisateur);
+
 module.exports = router;

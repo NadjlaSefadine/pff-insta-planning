@@ -1,18 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db');
-const auth = require('../middleware/auth');
+const pool = require("../db.js");
+const auth = require("../middleware/auth.js");
+// const express = require('express');
+// const router = express.Router();
+// const db = require('../db');
+// const auth = require('../middleware/auth');
 
 // GET : tous les niveaux
 router.get('/', auth, async (req, res) => {
-  const result = await db.query('SELECT * FROM niveaux ORDER BY filiere_id, code');
+  const result = await pool.query('SELECT * FROM niveaux ORDER BY filiere_id, code');
   res.json(result.rows);
 });
 
 // POST : créer un niveau
 router.post('/', auth, async (req, res) => {
   const { filiere_id, code } = req.body;
-  const result = await db.query(
+  const result = await pool.query(
     'INSERT INTO niveaux(filiere_id,code) VALUES ($1,$2) RETURNING *',
     [filiere_id, code]
   );
@@ -22,7 +26,7 @@ router.post('/', auth, async (req, res) => {
 // PATCH : modifier un niveau
 router.patch('/:id', auth, async (req, res) => {
   const { filiere_id, code } = req.body;
-  const result = await db.query(
+  const result = await pool.query(
     'UPDATE niveaux SET filiere_id=$1, code=$2 WHERE id=$3 RETURNING *',
     [filiere_id, code, req.params.id]
   );
@@ -32,7 +36,7 @@ router.patch('/:id', auth, async (req, res) => {
 
 // DELETE : supprimer un niveau
 router.delete('/:id', auth, async (req, res) => {
-  const result = await db.query('DELETE FROM niveaux WHERE id=$1 RETURNING *', [req.params.id]);
+  const result = await pool.query('DELETE FROM niveaux WHERE id=$1 RETURNING *', [req.params.id]);
   if (result.rows.length === 0) return res.status(404).json({ message: 'Niveau non trouvé' });
   res.json({ message: 'Niveau supprimé' });
 });

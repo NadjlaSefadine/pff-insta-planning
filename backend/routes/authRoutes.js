@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const pool = require('../db.js');
+const db = require('../db');
 const bcrypt = require('bcryptjs');
-const { v4 } = require('uuid');
-const transporter = require('../config/mailer.js');
+
+
+const { v4: uuidv4 } = require('uuid');
+const transporter = require('../config/mailer');
 
 router.post('/examen', (req, res) => {
   res.send('Examen OK');
@@ -28,16 +30,18 @@ router.post("/register", async (req, res) => {
 
   try {
     // Vérifier si l'email existe déjà
-    const userCheck = await pool.query('SELECT * FROM utilisateurs WHERE email = $1', [email]);
+    const userCheck = await db.query('SELECT * FROM utilisateurs WHERE email = $1', [email]);
     if (userCheck.rows.length > 0) {
       return res.status(409).json({ message: "L'email existe déjà" });
     }
     
+    
+
     // Hasher le mot de passe
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Créer le nouvel utilisateur
-    const newUser = await pool.query(
+    const newUser = await db.query(
       `INSERT INTO utilisateurs (nom, email, password, role)
        VALUES ($1, $2, $3, $4) RETURNING id, nom, email, role`,
       [nom, email, hashedPassword, role]
@@ -47,10 +51,10 @@ router.post("/register", async (req, res) => {
 
     // Générer OTP + token
     const otp = genererNombreAleatoire();
-    const otpToken = v4();
+    const otpToken = uuidv4();
 
     // Sauvegarder OTP
-    await pool.query(
+    await db.query(
       'INSERT INTO otps (user_id, otp, otp_token, purpose) VALUES ($1, $2, $3, $4)',
       [user.id, otp, otpToken, 'verify-email']
     );
@@ -87,7 +91,7 @@ router.patch("/verify", async (req, res) => {
       return res.status(422).send({ message: "Objectif invalide" });
     }
 
-    const otpResult = await pool.query(
+    const otpResult = await db.query(
       'SELECT * FROM otps WHERE otp_token = $1 AND purpose = $2',
       [otpToken, purpose]
     );
@@ -100,7 +104,7 @@ console.log(otpDetails);
     }
 
     // Vérifier l'utilisateur
-    const verifiedUserResult = await pool.query(
+    const verifiedUserResult = await db.query(
       'UPDATE utilisateurs SET is_verified = TRUE WHERE id = $1 RETURNING *',
       [otpDetails.user_id]
     );
@@ -120,11 +124,9 @@ console.log(otpDetails);
 
 // LOGIN (déjà bon)
 router.post('/login', async (req, res) => {
-  console.log('Login request received');
-  console.log('Request body:', req.body);
   const { email, password } = req.body;
   try {
-    const result = await pool.query('SELECT * FROM utilisateurs WHERE email=$1', [email]);
+    const result = await db.query('SELECT * FROM utilisateurs WHERE email=$1', [email]);
     if (result.rows.length === 0) return res.status(400).json({ message: 'Utilisateur non trouvé' });
 
     const user = result.rows[0];
